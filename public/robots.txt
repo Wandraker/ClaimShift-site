@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wandraker.github.io/ClaimShift-site/sitemap.xml
