@@ -9,7 +9,7 @@ Built with React, TypeScript and Vite. The site has no authentication, database 
 - `/` — public project overview
 - `/wiki/` — detailed administrator documentation
 
-Both pages include native English and Russian content. The selected language is stored locally in the browser.
+Both pages include native English and Russian content. Russian browser locales open in Russian automatically; every other locale falls back to English. A manual EN/RU choice is stored locally in the browser and takes priority on later visits.
 
 ## Local development
 

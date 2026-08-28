@@ -56,7 +56,7 @@ const copy = {
     how: {
       eyebrow: "State-based protection",
       title: "OPEN, GRACE, PROTECTED.",
-      lead: "ClaimShift does not replace your claim plugin. It watches active owners and changes only the regions you explicitly choose to manage.",
+      lead: "ClaimShift does not replace your claim plugin. It watches active owners, keeps pre-existing regions static by default, and automatically manages eligible player-owned regions created afterwards.",
       defaultMode: "offline-open",
       defaultTitle: "Protect active players by default.",
       defaultText: "Active owner → protected. No active owners → 1 hour grace → open.",
@@ -69,11 +69,11 @@ const copy = {
     worldguard: {
       eyebrow: "WorldGuard first",
       title: "Your spawn stays your spawn.",
-      lead: "Fresh installations are opt-in. Player bases can use dynamic protection while spawn, shops, event zones and staff regions keep their normal WorldGuard behavior.",
+      lead: "Regions that existed before ClaimShift stay static by default. New eligible player-owned regions created while ClaimShift is running become dynamic automatically, while spawn, shops, event zones and staff regions can remain permanently static.",
       enabled: "dynamic management enabled",
       static: "static WorldGuard behavior kept",
       points: [
-        ["Opt in per region", "Use claimshift-dynamic when you want explicit control."],
+        ["Old stays static, new becomes dynamic", "ClaimShift remembers pre-existing regions as legacy/static and automatically manages eligible regions created afterwards."],
         ["Bulk selection when needed", "Include and exclude patterns let established servers manage player regions without touching every claim by hand."],
         ["Restore the original state", "Temporary passthrough changes are tracked so ClaimShift can safely return the exact previous WorldGuard value."],
       ],
@@ -142,7 +142,7 @@ const copy = {
     how: {
       eyebrow: "Защита по состояниям",
       title: "OPEN, GRACE, PROTECTED.",
-      lead: "ClaimShift не заменяет систему приватов. Он отслеживает активных владельцев и меняет только те регионы, которыми вы разрешили ему управлять.",
+      lead: "ClaimShift не заменяет систему приватов. Он отслеживает активных владельцев, оставляет старые регионы статичными по умолчанию и автоматически подхватывает новые подходящие регионы игроков.",
       defaultMode: "offline-open",
       defaultTitle: "По умолчанию активный игрок защищён.",
       defaultText: "Есть активный владелец → защита. Нет активных владельцев → 1 час GRACE → OPEN.",
@@ -155,11 +155,11 @@ const copy = {
     worldguard: {
       eyebrow: "Сначала WorldGuard",
       title: "Спавн останется спавном.",
-      lead: "На чистой установке регионы подключаются вручную. Базы игроков могут быть динамическими, а спавн, магазины, ивенты и админские регионы остаются обычными приватами WorldGuard.",
+      lead: "Регионы, существовавшие до ClaimShift, по умолчанию остаются статичными. Новые подходящие регионы игроков, созданные уже во время работы ClaimShift, автоматически становятся динамическими, а спавн, магазины, ивенты и админские зоны можно навсегда оставить обычными регионами WorldGuard.",
       enabled: "динамический режим включён",
       static: "обычная защита WorldGuard сохранена",
       points: [
-        ["Включение для конкретного региона", "Флаг claimshift-dynamic даёт понятный ручной контроль."],
+        ["Старые статичны, новые динамические", "ClaimShift запоминает существующие регионы как старые/статичные и автоматически подхватывает подходящие регионы, созданные после установки."],
         ["Массовый выбор при необходимости", "Include/exclude-паттерны позволяют подключить существующие регионы игроков без ручной настройки каждого."],
         ["Возврат исходного состояния", "ClaimShift запоминает временные изменения passthrough и безопасно возвращает исходное значение."],
       ],

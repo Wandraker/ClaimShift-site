@@ -71,10 +71,10 @@ const copy = {
     },
     worldguard: {
       title: "WorldGuard setup",
-      paragraphs: ["WorldGuard is the primary full dynamic integration. ClaimShift registers its own flags and, in dynamic-passthrough mode, temporarily manages the passthrough layer for selected regions.", "Fresh installations do not automatically convert every owned region. Explicit opt-in is the safest way to start."],
+      paragraphs: ["WorldGuard is the primary full dynamic integration. ClaimShift registers its own flags and, in dynamic-passthrough mode, temporarily manages the passthrough layer for selected regions.", "Regions already present when ClaimShift first observes a world are recorded as legacy/static and remain normal WorldGuard regions. Eligible player-owned regions first created while ClaimShift is running are automatically dynamic by default.", "Normal /rg claim, /rg define, owner and flag changes request a near-immediate ClaimShift reconciliation. Regions created through APIs or other plugins are still discovered by the periodic reconciler."],
       enable: "/rg flag <region> claimshift-dynamic allow",
       disable: "/rg flag <region> claimshift-dynamic deny",
-      selector: `integration:\n  worldguard:\n    mode: dynamic-passthrough\n    manage-all-owned-regions: false\n    manage-existing-passthrough-regions: false\n    included-regions: []\n    excluded-regions:\n      - __global__`,
+      selector: `integration:\n  worldguard:\n    mode: dynamic-passthrough\n    manage-all-owned-regions: false\n    auto-manage-new-regions: true\n    manage-existing-passthrough-regions: false\n    included-regions: []\n    excluded-regions:\n      - __global__`,
       lands: "Lands is currently an optional overlay integration, not the same full dynamic-open implementation as WorldGuard.",
     },
     regions: {
@@ -87,7 +87,7 @@ const copy = {
       title: "Per-region overrides",
       text: "A managed WorldGuard region can override the global presence policy, both transition delays and raid-session setting.",
       commands: ["/rg flag <region> claimshift-policy offline-open", "/rg flag <region> claimshift-active-delay 5m", "/rg flag <region> claimshift-inactive-delay 1h", "/rg flag <region> claimshift-raids allow", "/rg flag <region> claimshift-raids deny"],
-      note: "claimshift-delay remains a compatibility alias for the inactive-owner delay. A policy/delay override does not automatically opt a static region into ClaimShift; use claimshift-dynamic allow when needed.",
+      note: "claimshift-delay remains a compatibility alias for the inactive-owner delay. A policy/delay override does not automatically convert a legacy/static region; use claimshift-dynamic allow when you intentionally want an older region to become dynamic.",
     },
     rules: {
       title: "Protection rules",
@@ -129,7 +129,7 @@ const copy = {
       title: "Troubleshooting",
       items: [
         ["Nothing changes after installation", "Check whether dry-run is still enabled. A fresh install intentionally previews decisions without enforcement."],
-        ["My player region stays static", "Use /claimshift inspect and verify that the region is managed. On a fresh install, use claimshift-dynamic allow or configure selectors."],
+        ["My player region stays static", "Use /claimshift inspect and check Management source. Regions that existed before ClaimShift are intentionally legacy/static. New eligible regions should be automatic; older ones can be enabled with claimshift-dynamic allow."],
         ["Spawn might become raidable", "Keep it ownerless/static or explicitly set claimshift-dynamic deny."],
         ["An online owner became inactive", "Smart Presence can mark connected AFK/idle owners inactive. Check idle settings and CMI/EssentialsX AFK state."],
         ["Reload was rejected", "That is intentional safety behavior. Fix the invalid value; the previous working configuration remains active."],
@@ -186,10 +186,10 @@ const copy = {
     },
     worldguard: {
       title: "Настройка WorldGuard",
-      paragraphs: ["WorldGuard — основная полноценная динамическая интеграция. ClaimShift регистрирует свои флаги и в режиме dynamic-passthrough временно управляет passthrough выбранных регионов.", "На чистой установке ClaimShift не превращает все регионы с владельцами в динамические. Явное включение — самый безопасный старт."],
+      paragraphs: ["WorldGuard — основная полноценная динамическая интеграция. ClaimShift регистрирует свои флаги и в режиме dynamic-passthrough временно управляет passthrough выбранных регионов.", "Регионы, которые уже существовали при первом обнаружении мира ClaimShift, записываются как старые/статичные и остаются обычными регионами WorldGuard. Новые подходящие регионы игроков, впервые созданные во время работы ClaimShift, по умолчанию становятся динамическими автоматически.", "Обычные изменения через /rg claim, /rg define, владельцев и флаги вызывают почти мгновенную синхронизацию ClaimShift. Регионы, созданные через API или другие плагины, всё равно будут найдены обычным периодическим reconcile."],
       enable: "/rg flag <region> claimshift-dynamic allow",
       disable: "/rg flag <region> claimshift-dynamic deny",
-      selector: `integration:\n  worldguard:\n    mode: dynamic-passthrough\n    manage-all-owned-regions: false\n    manage-existing-passthrough-regions: false\n    included-regions: []\n    excluded-regions:\n      - __global__`,
+      selector: `integration:\n  worldguard:\n    mode: dynamic-passthrough\n    manage-all-owned-regions: false\n    auto-manage-new-regions: true\n    manage-existing-passthrough-regions: false\n    included-regions: []\n    excluded-regions:\n      - __global__`,
       lands: "Lands сейчас используется как опциональная overlay-интеграция и не равен полноценному динамическому открытию WorldGuard-региона.",
     },
     regions: {
@@ -202,7 +202,7 @@ const copy = {
       title: "Настройки для конкретного региона",
       text: "Управляемый WorldGuard-регион может переопределить глобальную политику, обе задержки и Raid Sessions.",
       commands: ["/rg flag <region> claimshift-policy offline-open", "/rg flag <region> claimshift-active-delay 5m", "/rg flag <region> claimshift-inactive-delay 1h", "/rg flag <region> claimshift-raids allow", "/rg flag <region> claimshift-raids deny"],
-      note: "claimshift-delay оставлен как совместимый алиас старой задержки неактивного владельца. Сам override политики или задержки не делает статичный регион динамическим — при необходимости всё равно используйте claimshift-dynamic allow.",
+      note: "claimshift-delay оставлен как совместимый алиас старой задержки неактивного владельца. Сам override политики или задержки не превращает старый/статичный регион в динамический — если нужно подключить именно старый регион, используйте claimshift-dynamic allow.",
     },
     rules: {
       title: "Правила защиты",
@@ -244,7 +244,7 @@ const copy = {
       title: "Решение проблем",
       items: [
         ["После установки ничего не меняется", "Проверьте dry-run. На чистой установке он специально только показывает решения, но ничего не применяет."],
-        ["Приват игрока остаётся статичным", "Используйте /claimshift inspect и проверьте, управляется ли регион. На чистой установке нужен claimshift-dynamic allow или настройка selectors."],
+        ["Приват игрока остаётся статичным", "Используйте /claimshift inspect и посмотрите «Источник управления». Регионы, существовавшие до ClaimShift, специально остаются старыми/статичными. Новые подходящие регионы подхватываются автоматически; старый регион можно включить через claimshift-dynamic allow."],
         ["Боюсь, что спавн станет рейдабельным", "Оставьте его без владельцев/статичным или явно поставьте claimshift-dynamic deny."],
         ["Игрок онлайн, но перестал считаться активным", "Smart Presence может пометить AFK/idle владельца неактивным. Проверьте idle-настройки и AFK-статус CMI/EssentialsX."],
         ["Reload отклонён", "Это защитное поведение. Исправьте некорректное значение — предыдущий рабочий конфиг остаётся активным."],
